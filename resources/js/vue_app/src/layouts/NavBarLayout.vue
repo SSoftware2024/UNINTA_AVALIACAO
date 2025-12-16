@@ -16,12 +16,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#"
-                            >Lista</a
-                        >
+                        <router-link class="nav-link" to="dashboard">Lista</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Itens</a>
+                        <router-link class="nav-link" to="items">Itens</router-link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sair</a>

@@ -6,6 +6,7 @@ import NavBarLayout from "@/layouts/NavBarLayout.vue";
 import Login from "@/pages/auth/Login.vue";
 import Register from "@/pages/auth/Register.vue";
 import Dashboard from "@/pages/TaskList.vue";
+import ListItem from "@/pages/ListItem.vue";
 
 
 const routes = [
@@ -44,8 +45,13 @@ const routes = [
                 path: "",
                 name: "dashboard",
                 component: Dashboard,
-
             },
+            {
+                path: "/items",
+                name: "items",
+                component: ListItem,
+            },
+
         ],
     },
 ];
