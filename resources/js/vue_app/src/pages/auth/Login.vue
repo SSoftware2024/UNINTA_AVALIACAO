@@ -1,8 +1,3 @@
-<script setup>
-import { useRouter } from "vue-router";
-const router = useRouter();
-</script>
-
 <template>
     <div>
         <form>
@@ -25,8 +20,27 @@ const router = useRouter();
                     id="exampleInputPassword1"
                 />
             </div>
-            <router-link :to="{ name: 'register' }" class="d-block"> Registrar </router-link>
-            <button type="submit" class="btn btn-primary mt-3">Entrar</button>
+            <router-link :to="{ name: 'register' }" class="d-block">
+                Registrar
+            </router-link>
+            <button type="submit" @click.prevent="submitLogin" class="btn btn-primary mt-3">Entrar</button>
         </form>
     </div>
 </template>
+
+<script setup>
+import instanceAxios from '@/js/configAxios';
+
+
+async function submitLogin() {
+    const axios = await instanceAxios();
+    axios
+        .get("teste")
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+</script>
