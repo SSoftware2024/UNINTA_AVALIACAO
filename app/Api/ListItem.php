@@ -34,12 +34,28 @@ final class ListItem
         }
     }
 
-    public function read(Request $request): ?array
+    public function read(Request $request)
     {
-        $taskLists = ModelsListItem::where('task_list_id', $request->task_list_id)
-            ->where('status', $request->status)
-            ->orderBy('id', 'desc')->get();
-        return $taskLists ? $taskLists->toArray() : null;
+        $user = $request->user();
+        $taskList = $user->taskList()->find($request->task_list_id);
+
+        if (!$taskList) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Lista não encontrada ou não pertence ao usuário',
+            ], 404);
+        }
+
+        $query = $taskList->listItems()->orderBy('id', 'desc');
+
+        // Se quiser filtrar por status
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $items = $query->get();
+
+        return $items->toArray();
     }
 
     public function update(int $id, Request $request): void

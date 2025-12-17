@@ -35,9 +35,9 @@ export const useListItemStore = defineStore("listItem", {
         async read() {
             const axios = await instanceAxios();
             try {
-                const response = await axios.get("task_list", {
+                const response = await axios.get("list_item", {
                     params: {
-                        user_id: this.user_id,
+                        task_list_id: this.task_list_id,
                     },
                 });
                 this.data = response.data;
