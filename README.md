@@ -19,6 +19,7 @@ php artisan migrate
 - Sanctum (autenticação via token)
 - MySQL / SQLite (qualquer banco suportado pelo Laravel)
 - VUE 3 
+- PINIA
 - VITE
 
 ---
