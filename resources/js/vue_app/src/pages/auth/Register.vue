@@ -65,5 +65,12 @@
 <script setup>
 import { useRegisterStore } from "@stores/register";
 import Button from "@/components/Button.vue";
+import { useRouter } from 'vue-router';
+import { onMounted } from "vue";
+const router = useRouter();
 const registerStore = useRegisterStore();
+
+onMounted(() => {
+    registerStore.setRouter(router);
+});
 </script>

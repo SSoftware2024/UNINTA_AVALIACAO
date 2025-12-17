@@ -1,5 +1,7 @@
 <?php
 
+use App\Api\Auth as AuthApi;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -9,22 +11,34 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/register', function (Request $request) {
-    $validator = Validator::make($request->all(),[
+    try {
+        $validator = Validator::make($request->all(), [
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:5', 'confirmed'],
     ]);
+
     if (!$validator->fails()) {
+        $authApi = new AuthApi();
+        $authApi->register($request->all());
+        $token = $authApi->login($request->all());
         return response()->json([
-            'status' => 'error',
+            'status' => 'success',
             'message' => 'Usuário cadastrado com sucesso',
-            'errors' => $validator->errors(),
+            'token' => $token,
         ], 201);
     } else {
+
         return response()->json([
             'status' => 'error',
             'message' => 'Validation failed',
             'errors' => $validator->errors(),
         ], 422);
+    }
+    } catch (\Exception $e) {
+        return response()->json([
+            'error_exception' => $e->getMessage(),
+            'code' => $e->getCode(),
+        ]);
     }
 });

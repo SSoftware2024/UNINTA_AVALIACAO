@@ -23,16 +23,23 @@
             <router-link :to="{ name: 'register' }" class="d-block">
                 Registrar
             </router-link>
-            <button type="submit" @click.prevent="submitLogin" class="btn btn-primary mt-3">Entrar</button>
+            <button
+                type="submit"
+                @click.prevent="submitLogin"
+                class="btn btn-primary mt-3"
+            >
+                Entrar
+            </button>
         </form>
     </div>
 </template>
 
 <script setup>
-import instanceAxios from '@/js/configAxios';
+import instanceAxios from "@/js/configAxios";
+import axio from "axios";
+import { onMounted } from "vue";
 
-
-async function submitLogin() {
+async function _submitLogin() {
     const axios = await instanceAxios();
     axios
         .get("teste")
@@ -43,4 +50,14 @@ async function submitLogin() {
             console.error(error);
         });
 }
+
+async function _getCSRFToken() {
+    axio.defaults.baseURL = "http://localhost:8000";
+    axio.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+    await axio.get("/sanctum/csrf-cookie");
+}
+
+onMounted(() => {
+    _getCSRFToken();
+});
 </script>
