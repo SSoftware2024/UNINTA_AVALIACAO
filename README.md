@@ -69,16 +69,3 @@ Esta é uma API RESTful desenvolvida em **Laravel**, que permite gerenciar usuá
 | DELETE | /list_item/{id}           | Deletar item da lista               | ✅ |
 
 ---
-
-## Requisições e Respostas
-
-Exemplo de **login**:
-
-```bash
-POST /login
-Content-Type: application/json
-
-{
-  "email": "usuario@teste.com",
-  "password": "senha123"
-}
