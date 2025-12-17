@@ -75,15 +75,15 @@ export const useListItemStore = defineStore("listItem", {
                 this.isLoading.changeStatus[item_id] = false;
             }
         },
-        async delete(task_id) {
+        async delete(item_id) {
             const axios = await instanceAxios();
-            this.isLoading.delete[task_id] = true;
+            this.isLoading.delete[item_id] = true;
             try {
-                const response = await axios.delete(`task_list/${task_id}`);
-                this.isLoading.delete[task_id] = false;
+                const response = await axios.delete(`list_item/${item_id}`);
+                this.isLoading.delete[item_id] = false;
             } catch (error) {
                 this.errors = error.response?.data?.errors;
-                this.isLoading.delete[task_id] = false;
+                this.isLoading.delete[item_id] = false;
             }
         },
     },

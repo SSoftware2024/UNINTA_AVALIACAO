@@ -46,10 +46,10 @@
 
                     <!-- Modo leitura -->
                     <div v-else>
-                        <h1>Título {{ item.title }}</h1>
+                        <h1>{{ item.title }}</h1>
                         <div class="options d-flex gap-2">
                             <button type="button" class="btn btn-warning" @click="editItem(item)">Editar</button>
-                            <button type="button" class="btn btn-danger" @click="deleteItem(item.id)">Excluir</button>
+                            <Button text="Excluir" type="button" class="btn btn-danger" @click="deleteItem(item.id)" :isLoading="listItemStore.isLoading.delete[item.id]"></Button>
                             <Button :text="item.status == 'pending' ? 'Concluir':'Desconcluir'" type="button" :class="{
                                 'btn':true,
                                 'btn-success': item.status == 'pending',

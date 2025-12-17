@@ -29,7 +29,7 @@
 
           <!-- Modo leitura -->
           <div v-else>
-            <h1>Título {{ task.title }}</h1>
+            <h1> {{ task.title }}</h1>
             <div class="options d-flex gap-2">
               <router-link type="button" class="btn btn-info" :to="{ name: 'items', params: { id: task.id } }">Ver mais</router-link>
               <button type="button" class="btn btn-warning" @click="editTask(task)">Editar</button>
