@@ -60,6 +60,7 @@ final class ListItem
 
     public function update(int $id, Request $request): void
     {
+        ds('here');
         ModelsListItem::where('id', $id)->update(['title' => $request->title]);
     }
     public function changeStatus(int $id, Request $request): void

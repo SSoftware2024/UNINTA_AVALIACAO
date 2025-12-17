@@ -22,7 +22,7 @@
           <div v-if="editingTaskId === task.id">
             <input type="text" class="form-control mb-2" v-model="editingTitle" />
             <div class="options d-flex gap-2">
-              <Button text="Salvar" class="btn btn-success" :isLoading="taskListStore.isLoading.update" @click="saveEdit(task.id)"></Button>
+              <Button text="Salvar" type="button" class="btn btn-success" :isLoading="taskListStore.isLoading.update" @click="saveEdit(task.id)"></Button>
               <button class="btn btn-secondary" @click="cancelEdit()">Cancelar</button>
             </div>
           </div>

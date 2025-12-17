@@ -47,11 +47,11 @@ export const useListItemStore = defineStore("listItem", {
                 this.errors = error.response?.data?.errors;
             }
         },
-        async update(task_id, title) {
+        async update(item_id, title) {
             const axios = await instanceAxios();
             this.isLoading.update = true;
             try {
-                const response = await axios.patch(`task_list/${task_id}`, {
+                const response = await axios.patch(`list_item/${item_id}`, {
                     title: title,
                 });
                 this.title = "";
