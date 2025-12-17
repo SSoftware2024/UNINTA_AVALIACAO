@@ -85,6 +85,13 @@
 
 <script setup>
 import Modal from "@/components/Modal.vue";
+import { onMounted } from "vue";
+import { useRoute } from 'vue-router';
+
+onMounted(() => {
+    const route = useRoute();
+    console.log(route.params.id);
+});
 </script>
 <style scoped>
 .content .card:hover {

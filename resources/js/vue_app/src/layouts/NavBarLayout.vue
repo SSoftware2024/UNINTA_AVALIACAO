@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">{{ userStore.name }}</a>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -19,9 +19,6 @@
                         <router-link class="nav-link" to="dashboard">Lista</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="items">Itens</router-link>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#" @click.prevent="_logout">Sair</a>
                     </li>
                 </ul>
@@ -36,8 +33,10 @@
 
 <script setup>
 import { useLoginStore } from "@stores/login";
+import { useUserStore } from "@stores/user";
 import { onMounted } from "vue";
 import { useRouter } from 'vue-router';
+const userStore = useUserStore();
 const loginStore = useLoginStore();
 const router = useRouter();
 

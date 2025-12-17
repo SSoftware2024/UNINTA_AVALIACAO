@@ -15,7 +15,7 @@
     </div>
 
     <!-- Lista de tarefas -->
-    <div class="content">
+    <div class="contents">
       <div class="card mb-3" v-for="task in taskListStore.data" :key="task.id">
         <div class="card-body">
           <!-- Modo edição -->
@@ -31,6 +31,7 @@
           <div v-else>
             <h1>Título {{ task.title }}</h1>
             <div class="options d-flex gap-2">
+              <router-link type="button" class="btn btn-info" :to="{ name: 'items', params: { id: task.id } }">Ver mais</router-link>
               <button type="button" class="btn btn-warning" @click="editTask(task)">Editar</button>
               <Button text="Excluir" class="btn btn-danger" :isLoading="taskListStore.isLoading.delete[task.id]" @click="deleteTask(task.id)"></Button>
             </div>
@@ -153,8 +154,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.content .card:hover {
-  background-color: beige;
-  cursor: pointer;
-}
+
 </style>
