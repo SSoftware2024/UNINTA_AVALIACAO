@@ -67,6 +67,17 @@
 
 <script setup>
 import Modal from "@/components/Modal.vue";
+import { onMounted } from "vue";
+import { useUserStore } from "@stores/user";
+const userStore = useUserStore();
+
+async function _loadUser() {
+    await userStore.getUser();
+}
+
+onMounted(() => {
+    _loadUser();
+});
 </script>
 <style scoped>
 .content .card:hover {

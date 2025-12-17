@@ -1,12 +1,13 @@
 <?php
 
 use App\Api\Auth as AuthApi;
-use Illuminate\Container\Attributes\Auth;
+use App\Api\TaskList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
 Route::get('/user', function (Request $request) {
+    ds('here');
     return $request->user();
 })->middleware('auth:sanctum');
 
@@ -41,4 +42,15 @@ Route::post('/register', function (Request $request) {
             'code' => $e->getCode(),
         ]);
     }
+});
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::prefix('task_list')->group(function () {
+        Route::post('/create', [TaskList::class, 'create']);
+    });
+
+
+
 });
