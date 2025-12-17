@@ -32,7 +32,7 @@
             <h1>Título {{ task.title }}</h1>
             <div class="options d-flex gap-2">
               <button type="button" class="btn btn-warning" @click="editTask(task)">Editar</button>
-              <button type="button" class="btn btn-danger" @click="deleteTask(task.id)">Excluir</button>
+              <Button text="Excluir" class="btn btn-danger" :isLoading="taskListStore.isLoading.delete[task.id]" @click="deleteTask(task.id)"></Button>
             </div>
           </div>
         </div>

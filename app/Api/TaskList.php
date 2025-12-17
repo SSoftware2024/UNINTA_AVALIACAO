@@ -3,6 +3,7 @@
 namespace App\Api;
 
 use App\Interface\CRUD;
+use App\Models\ListItem;
 use Illuminate\Http\Request;
 use App\Models\TaskList as ModelsTaskList;
 use Illuminate\Support\Facades\Validator;
@@ -39,14 +40,15 @@ final class TaskList
         return $taskLists ? $taskLists->toArray() : null;
     }
 
-    public function update(Request $request): void
+    public function update(int $id, Request $request): void
     {
-        ds($request->all());
-         ModelsTaskList::where('id', $request->id)->update(['title' => $request->title]);
+
+         ModelsTaskList::where('id', $id)->update(['title' => $request->title]);
     }
 
     public function delete(int $id): void
     {
-        // Implementation for deleting a task list
+        ListItem::where('task_list_id', $id)->delete();
+        ModelsTaskList::where('id', $id)->delete();
     }
 }

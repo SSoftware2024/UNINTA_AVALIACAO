@@ -7,6 +7,7 @@ export const useTaskListStore = defineStore("taskList", {
         isLoading: {
             register: false,
             update: false,
+            delete: []
         },
         errors: "",
         data: [],
@@ -19,7 +20,7 @@ export const useTaskListStore = defineStore("taskList", {
             this.isLoading.register = true;
             const axios = await instanceAxios();
             try {
-                const response = await axios.post("task_list/create", {
+                const response = await axios.post("task_list", {
                     title: this.title,
                     user_id: this.user_id,
                 });
@@ -34,7 +35,7 @@ export const useTaskListStore = defineStore("taskList", {
         async read() {
             const axios = await instanceAxios();
             try {
-                const response = await axios.get("task_list/read", {
+                const response = await axios.get("task_list", {
                     params: {
                         user_id: this.user_id,
                     },
@@ -48,8 +49,7 @@ export const useTaskListStore = defineStore("taskList", {
             const axios = await instanceAxios();
             this.isLoading.update = true;
             try {
-                const response = await axios.patch("task_list/update", {
-                    id: task_id,
+                const response = await axios.patch(`task_list/${task_id}`, {
                     title: title,
                 });
                 this.title = "";
@@ -57,6 +57,17 @@ export const useTaskListStore = defineStore("taskList", {
             } catch (error) {
                 this.errors = error.response?.data?.errors;
                 this.isLoading.update = false;
+            }
+        },
+        async delete(task_id) {
+            const axios = await instanceAxios();
+            this.isLoading.delete[task_id] = true;
+            try {
+                const response = await axios.delete(`task_list/${task_id}`);
+                this.isLoading.delete[task_id] = false;
+            } catch (error) {
+                this.errors = error.response?.data?.errors;
+                this.isLoading.delete[task_id] = false;
             }
         },
     },
