@@ -47,6 +47,9 @@ function _logout() {
 
 onMounted(() => {
     loginStore.setRouter(router);
+    if(!loginStore.isAuthenticated) {
+        router.push({ name: 'login' });
+    }
 });
 </script>
 

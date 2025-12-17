@@ -7,12 +7,37 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
-Route::get('/user', function (Request $request) {
-    ds('here');
-    return $request->user();
-})->middleware('auth:sanctum');
 
-Route::post('/logout', [AuthApi::class, 'logout'])->middleware('auth:sanctum');
+
+Route::post('/login', function(Request $request) {
+    $validator = Validator::make($request->all(), [
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'password' => ['required', 'string', 'min:5'],
+    ]);
+
+    if (!$validator->fails()) {
+        $token = (new AuthApi())->login($request->all());
+        if ($token) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Login com sucesso',
+                'token' => $token,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Credenciais inválidas',
+            ], 401);
+        }
+    } else {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Validation failed',
+            'errors' => $validator->errors(),
+        ], 422);
+    }
+
+});
 
 Route::post('/register', function (Request $request) {
     try {
@@ -46,6 +71,12 @@ Route::post('/register', function (Request $request) {
         ]);
     }
 });
+Route::post('/logout', [AuthApi::class, 'logout'])->middleware('auth:sanctum');
+
+Route::get('/user', function (Request $request) {
+    ds('here');
+    return $request->user();
+})->middleware('auth:sanctum');
 
 
 Route::middleware(['auth:sanctum'])->group(function () {

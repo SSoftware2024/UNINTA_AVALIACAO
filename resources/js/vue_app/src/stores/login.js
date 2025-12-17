@@ -5,31 +5,52 @@ export const useLoginStore = defineStore("login", {
         name: "",
         email: "",
         password: "",
-        password_confirmation: "",
         errors: "",
         isLoading: false,
         router: null,
     }),
+    getters: {
+        isAuthenticated: () => localStorage.getItem("@token") !== null,
+    },
     actions: {
         setRouter(router) {
             this.router = router;
         },
+        async login() {
+            const axios = await instanceAxios();
+            this.isLoading = true;
+            try {
+                const response = await axios.post("/login", {
+                    email: this.email,
+                    password: this.password,
+                });
+                this.email = "";
+                this.password = "";
+
+                // Salvar token retornado da API
+                localStorage.setItem("@token", response.data.token);
+                this.isLoading = false;
+                this.router.push({ name: "dashboard" });
+            } catch (error) {
+                this.errors = error.response?.data?.errors;
+                this.isLoading = false;
+            }
+        },
+
         async logout() {
             const axios = await instanceAxios();
             try {
                 await axios.post("/logout");
                 // Limpa dados locais
-                localStorage.removeItem("@admin_Token");
-                localStorage.removeItem("@user_api");
+                localStorage.removeItem("@token");
 
                 // Resetar store de usuário
                 this.name = "";
                 this.email = "";
                 this.id = "";
 
-
                 if (this.router) {
-                    this.router.push({name: 'login'});
+                    this.router.push({ name: "login" });
                 }
             } catch (error) {
                 console.log("Erro ao sair:", error.response?.data || error);

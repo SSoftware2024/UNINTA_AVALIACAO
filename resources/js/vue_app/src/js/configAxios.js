@@ -2,7 +2,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000/api/';
 const instanceAxios = async (timeout = 30000) => {
     try {
-        const token = localStorage.getItem('@admin_Token');
+        const token = localStorage.getItem('@token');
 
         const instance = axios.create({
             baseURL: API_URL,
