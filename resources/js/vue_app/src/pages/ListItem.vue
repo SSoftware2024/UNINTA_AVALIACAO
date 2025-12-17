@@ -5,12 +5,11 @@
                 <form action="">
                     <div class="row">
                         <div class="col-md-12">
-                            <select
-                                class="form-select"
-                            >
+                            <select class="form-select">
                                 <option value="completed">Concluídas</option>
-                                <option value="pending" selected>Pendentes</option>
-
+                                <option value="pending" selected>
+                                    Pendentes
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -28,10 +27,14 @@
     </div>
 
     <div class="content">
-        <div class="card mb-3" v-for="value in 10" :key="list">
+        <div
+            class="card mb-3"
+            v-for="item in listItemStore.data"
+            :key="item.id"
+        >
             <div class="card-body">
                 <div>
-                    <h1>Título {{ value }}</h1>
+                    <h1>Título {{ item.title }}</h1>
                     <div class="options d-flex gap-2">
                         <button type="button" class="btn btn-warning">
                             Editar
@@ -71,29 +74,65 @@
     </div>
 
     <Modal id="createItem" title="Cadastrar item">
-        <form>
+        <form @submit.prevent="_register">
             <div class="mb-3">
                 <label class="form-label">Título</label>
-                <input type="text" class="form-control" />
+                <input
+                    type="text"
+                    class="form-control"
+                    v-model="listItemStore.title"
+                />
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+            <Button
+                text="Salvar"
+                type="submit"
+                class="btn btn-primary mt-3 d-block"
+                :isLoading="listItemStore.isLoading.register"
+            ></Button>
+            <div class="text-danger" v-if="listItemStore.errors">
+                <div
+                    v-for="(errorMessages, field) in listItemStore.errors"
+                    :key="field"
+                >
+                    <div v-for="(message, index) in errorMessages" :key="index">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
         </form>
     </Modal>
 </template>
 
 <script setup>
 import Modal from "@/components/Modal.vue";
-import { onMounted } from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
+import Button from "@/components/Button.vue";
+import { onMounted, ref } from "vue";
+import { useUserStore } from "@stores/user";
+import { useListItemStore } from "@stores/listItem";
+const route = useRoute();
+const userStore = useUserStore();
+const listItemStore = useListItemStore();
 
-onMounted(() => {
+function _closeModal() {
+    const modalElement = document.getElementById("createItem");
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    modal.hide();
+}
+
+async function _register() {
+    await listItemStore.register();
+    if (!listItemStore.errors) {
+        _closeModal();
+         listItemStore.task_list_id = route.params.id;
+        await listItemStore.read();
+    }
+}
+
+onMounted(async () => {
     const route = useRoute();
-    console.log(route.params.id);
+    listItemStore.task_list_id = route.params.id;
+    await listItemStore.read();
 });
 </script>
-<style scoped>
-.content .card:hover {
-    background-color: beige;
-    cursor: pointer;
-}
-</style>
+
