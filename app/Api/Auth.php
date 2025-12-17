@@ -5,7 +5,6 @@ namespace App\Api;
 use App\Interface\AuthService as InterfaceAuthService;
 use App\Service\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 final class Auth implements InterfaceAuthService

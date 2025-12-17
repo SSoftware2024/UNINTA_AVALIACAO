@@ -48,7 +48,6 @@ final class ListItem implements CRUD
 
         $query = $taskList->listItems()->orderBy('id', 'desc');
 
-        // Se quiser filtrar por status
         if ($request->has('status')) {
             $query->where('status', $request->status);
         }
@@ -71,7 +70,6 @@ final class ListItem implements CRUD
 
     public function delete(int $id, Request $request)
     {
-        // Pega o usuário autenticado
         $user = $request->user();
 
         // Busca o item garantindo que ele pertença a uma lista do usuário

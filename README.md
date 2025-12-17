@@ -1,59 +1,84 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API de Gerenciamento de Tarefas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Esta é uma API RESTful desenvolvida em **Laravel**, que permite gerenciar usuários, listas de tarefas (`TaskList`) e itens de listas (`ListItem`). A autenticação é feita via **Sanctum** e os endpoints estão protegidos por tokens.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologias
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.4
+- Laravel
+- Sanctum (autenticação via token)
+- MySQL / SQLite (qualquer banco suportado pelo Laravel)
+- VUE 3 
+- VITE
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Estrutura da API
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Recursos
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Auth**
+   - `login` - Autenticação de usuário
+   - `register` - Registro de usuário
+   - `logout` - Encerrar sessão/token
 
-## Laravel Sponsors
+2. **TaskList**
+   - `create` - Criar uma lista de tarefas
+   - `read` - Listar todas as listas do usuário
+   - `update` - Atualizar título da lista
+   - `delete` - Deletar lista e seus itens
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **ListItem**
+   - `create` - Criar um item em uma lista
+   - `read` - Listar itens de uma lista (com filtro opcional por status)
+   - `update` - Atualizar título do item
+   - `changeStatus` - Alternar status entre pendente e concluído
+   - `delete` - Deletar item
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Endpoints
 
-## Contributing
+### Auth
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Método | Endpoint        | Descrição                  | Autenticação |
+|--------|----------------|---------------------------|--------------|
+| POST   | /login          | Login de usuário          | ❌ |
+| POST   | /register       | Registro de usuário       | ❌ |
+| POST   | /logout         | Logout de usuário         | ✅ |
 
-## Code of Conduct
+### TaskList
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Método | Endpoint             | Descrição                        | Autenticação |
+|--------|---------------------|---------------------------------|--------------|
+| POST   | /task_list           | Criar nova lista                 | ✅ |
+| GET    | /task_list           | Listar todas as listas do usuário | ✅ |
+| PATCH  | /task_list/{id}      | Atualizar título da lista        | ✅ |
+| DELETE | /task_list/{id}      | Deletar lista e seus itens       | ✅ |
 
-## Security Vulnerabilities
+### ListItem
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Método | Endpoint                  | Descrição                            | Autenticação |
+|--------|---------------------------|-------------------------------------|--------------|
+| POST   | /list_item                | Criar um item na lista              | ✅ |
+| GET    | /list_item                | Listar itens de uma lista            | ✅ |
+| PATCH  | /list_item/{id}           | Atualizar título de um item          | ✅ |
+| PATCH  | /list_item/changeStatus/{id} | Alterar status do item             | ✅ |
+| DELETE | /list_item/{id}           | Deletar item da lista               | ✅ |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Requisições e Respostas
+
+Exemplo de **login**:
+
+```bash
+POST /login
+Content-Type: application/json
+
+{
+  "email": "usuario@teste.com",
+  "password": "senha123"
+}
