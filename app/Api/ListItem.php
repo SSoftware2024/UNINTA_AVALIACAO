@@ -60,13 +60,13 @@ final class ListItem
 
     public function update(int $id, Request $request): void
     {
-        ds('here');
         ModelsListItem::where('id', $id)->update(['title' => $request->title]);
     }
     public function changeStatus(int $id, Request $request): void
     {
-        $status = $request->status == ListItemStatus::COMPLETED->value ? ListItemStatus::COMPLETED->value : ListItemStatus::PENDING->value;
-        ModelsListItem::where('id', $id)->update(['status' => $status]);
+        $item = ModelsListItem::find($id);
+        $item->status = $item->status == ListItemStatus::COMPLETED->value ? ListItemStatus::PENDING->value : ListItemStatus::COMPLETED->value;
+        $item->save();
     }
 
     public function delete(int $id, Request $request)

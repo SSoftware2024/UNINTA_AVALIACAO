@@ -50,7 +50,11 @@
                         <div class="options d-flex gap-2">
                             <button type="button" class="btn btn-warning" @click="editItem(item)">Editar</button>
                             <button type="button" class="btn btn-danger" @click="deleteItem(item.id)">Excluir</button>
-                            <button type="button" class="btn btn-success">Concluir</button>
+                            <Button :text="item.status == 'pending' ? 'Concluir':'Desconcluir'" type="button" :class="{
+                                'btn':true,
+                                'btn-success': item.status == 'pending',
+                                'btn-secondary': item.status == 'completed'
+                            }" @click="changeStatus(item.id)" :isLoading="listItemStore.isLoading.changeStatus[item.id]"></Button>
                         </div>
                     </div>
                 </div>
@@ -156,10 +160,17 @@ function cancelEdit() {
 
 async function saveEdit(id) {
     try {
-        console.log('save');
         await listItemStore.update(id, editingTitle.value);
         editingItemId.value = null;
         editingTitle.value = "";
+        await listItemStore.read();
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function changeStatus(id) {
+    try {
+        await listItemStore.changeStatus(id);
         await listItemStore.read();
     } catch (error) {
         console.log(error);

@@ -7,7 +7,8 @@ export const useListItemStore = defineStore("listItem", {
         isLoading: {
             register: false,
             update: false,
-            delete: []
+            changeStatus: [],
+            delete: [],
         },
         errors: "",
         status: "pending",
@@ -59,6 +60,19 @@ export const useListItemStore = defineStore("listItem", {
             } catch (error) {
                 this.errors = error.response?.data?.errors;
                 this.isLoading.update = false;
+            }
+        },
+        async changeStatus(item_id) {
+            const axios = await instanceAxios();
+            this.isLoading.changeStatus[item_id] = true;
+            try {
+                const response = await axios.patch(
+                    `list_item/changeStatus/${item_id}`
+                );
+                this.isLoading.changeStatus[item_id] = false;
+            } catch (error) {
+                this.errors = error.response?.data?.errors;
+                this.isLoading.changeStatus[item_id] = false;
             }
         },
         async delete(task_id) {
