@@ -4,7 +4,7 @@ namespace App\Api;
 
 use App\Models\User;
 
-use Illuminate\Support\Facades\Auth as AuthLaravel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 final class Auth
@@ -26,5 +26,10 @@ final class Auth
             $token = $token->plainTextToken;
         }
         return  $token ?? null;
+    }
+
+    public function logout(Request $request): void
+    {
+        $request->user()->tokens()->delete();
     }
 }

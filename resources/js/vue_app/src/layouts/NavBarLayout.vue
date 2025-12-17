@@ -22,7 +22,7 @@
                         <router-link class="nav-link" to="items">Itens</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sair</a>
+                        <a class="nav-link" href="#" @click.prevent="_logout">Sair</a>
                     </li>
                 </ul>
             </div>
@@ -33,6 +33,22 @@
         <router-view></router-view>
     </div>
 </template>
+
+<script setup>
+import { useLoginStore } from "@stores/login";
+import { onMounted } from "vue";
+import { useRouter } from 'vue-router';
+const loginStore = useLoginStore();
+const router = useRouter();
+
+function _logout() {
+    loginStore.logout();
+}
+
+onMounted(() => {
+    loginStore.setRouter(router);
+});
+</script>
 
 <style scoped>
 .content {
