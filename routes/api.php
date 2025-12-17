@@ -10,68 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 
 
-Route::post('/login', function(Request $request) {
-    $validator = Validator::make($request->all(), [
-        'email' => ['required', 'string', 'email', 'max:255'],
-        'password' => ['required', 'string', 'min:5'],
-    ]);
-
-    if (!$validator->fails()) {
-        $token = (new AuthApi())->login($request->all());
-        if ($token) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Login com sucesso',
-                'token' => $token,
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Credenciais inválidas',
-            ], 401);
-        }
-    } else {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Validation failed',
-            'errors' => $validator->errors(),
-        ], 422);
-    }
-
-});
-
-Route::post('/register', function (Request $request) {
-    try {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:5', 'confirmed'],
-        ]);
-
-        if (!$validator->fails()) {
-            $authApi = new AuthApi();
-            $authApi->register($request->all());
-            $token = $authApi->login($request->all());
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Usuário cadastrado com sucesso',
-                'token' => $token,
-            ], 201);
-        } else {
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-    } catch (\Exception $e) {
-        return response()->json([
-            'error_exception' => $e->getMessage(),
-            'code' => $e->getCode(),
-        ]);
-    }
-});
+Route::post('/login', [AuthApi::class,'login']);
+Route::post('/register', [AuthApi::class,'register']);
 Route::post('/logout', [AuthApi::class, 'logout'])->middleware('auth:sanctum');
 
 Route::get('/user', function (Request $request) {
