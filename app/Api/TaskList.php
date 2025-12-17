@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\TaskList as ModelsTaskList;
 use Illuminate\Support\Facades\Validator;
 
-final class TaskList
+final class TaskList implements CRUD
 {
     public function create(Request $request)
     {
@@ -46,7 +46,7 @@ final class TaskList
          ModelsTaskList::where('id', $id)->update(['title' => $request->title]);
     }
 
-    public function delete(int $id): void
+    public function delete(int $id, Request $request): void
     {
         ListItem::where('task_list_id', $id)->delete();
         ModelsTaskList::where('id', $id)->delete();

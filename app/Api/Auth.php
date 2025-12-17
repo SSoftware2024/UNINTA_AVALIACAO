@@ -2,14 +2,13 @@
 
 namespace App\Api;
 
-use App\Models\User;
-
+use App\Interface\AuthService as InterfaceAuthService;
 use App\Service\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-final class Auth
+final class Auth implements InterfaceAuthService
 {
     public function login(Request $request)
     {

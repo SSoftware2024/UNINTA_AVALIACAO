@@ -3,11 +3,8 @@
 use App\Api\Auth as AuthApi;
 use App\Api\ListItem;
 use App\Api\TaskList;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Validator;
-
 
 
 Route::post('/login', [AuthApi::class,'login']);

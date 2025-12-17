@@ -3,11 +3,12 @@
 namespace App\Api;
 
 use App\Enum\ListItemStatus;
+use App\Interface\CRUD;
 use App\Models\ListItem as ModelsListItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-final class ListItem
+final class ListItem implements CRUD
 {
 
     public function create(Request $request)
