@@ -13,14 +13,15 @@ export const useUserStore = defineStore("user", {
         },
         async getUser() {
             let user = localStorage.getItem("@user_api");
+            // console.log("User loaded:", user);
             if (user) {
                 const userData = JSON.parse(user);
                 this.name = userData.name;
                 this.email = userData.email;
                 this.id = userData.id;
+                // console.log(this.name);
                 return;
             } else {
-                console.log("Fetching user from API");
                 const axios = await instanceAxios();
                 try {
                     axios({
@@ -40,6 +41,7 @@ export const useUserStore = defineStore("user", {
                     console.log(error);
                 }
             }
+
         },
     },
 });

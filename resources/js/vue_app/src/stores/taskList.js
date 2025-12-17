@@ -3,32 +3,31 @@ import instanceAxios from "@/js/configAxios";
 export const useTaskListStore = defineStore("taskList", {
     state: () => ({
         title: "",
-        user_id:''
+        user_id:'',
+        isLoading: {
+            register: false,
+        },
+        errors: "",
     }),
     actions: {
         setRouter(router) {
             this.router = router;
         },
         async register() {
-            this.isLoading = true;
+            this.isLoading.register = true;
             const axios = await instanceAxios();
             try {
-                const response = await axios.post("/register", {
-                    name: this.name,
-                    email: this.email,
-                    password: this.password,
-                    password_confirmation: this.password_confirmation,
+                const response = await axios.post("/task_list/create", {
+                    title: this.title,
+                    user_id: this.user_id,
                 });
-                this.isLoading = false;
-                let data = response.data;
-                console.log(data.token)
-                if(data.token){
-                    localStorage.setItem('@admin_Token', data.token);
-                    this.router.push({ name: 'dashboard' });
-                }
+                this.title = "";
+                this.user_id = '';
+                this.isLoading.register = false;
+
             } catch (error) {
                 this.errors = error.response?.data?.errors;
-                this.isLoading = false;
+                this.isLoading.register = false;
             }
         },
     },
