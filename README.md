@@ -3,6 +3,8 @@
 Esta é uma API RESTful desenvolvida em **Laravel**, que permite gerenciar usuários, listas de tarefas (`TaskList`) e itens de listas (`ListItem`). A autenticação é feita via **Sanctum** e os endpoints estão protegidos por tokens.
 
 ---
+Atenção: Pasta build do vue_app existente, endereço: 'public/taskList'
+---
 
 ## Tecnologias
 
