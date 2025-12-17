@@ -5,7 +5,7 @@
                 <form action="">
                     <div class="row">
                         <div class="col-md-12">
-                            <select class="form-select">
+                            <select class="form-select" @change="listItemStore.read" v-model="listItemStore.status">
                                 <option value="completed">Concluídas</option>
                                 <option value="pending" selected>
                                     Pendentes

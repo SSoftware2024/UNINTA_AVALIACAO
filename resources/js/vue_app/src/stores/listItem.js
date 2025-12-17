@@ -10,6 +10,7 @@ export const useListItemStore = defineStore("listItem", {
             delete: []
         },
         errors: "",
+        status: "pending",
         data: [],
     }),
     actions: {
@@ -38,6 +39,7 @@ export const useListItemStore = defineStore("listItem", {
                 const response = await axios.get("list_item", {
                     params: {
                         task_list_id: this.task_list_id,
+                        status: this.status,
                     },
                 });
                 this.data = response.data;
