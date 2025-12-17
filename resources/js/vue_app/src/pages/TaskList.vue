@@ -20,6 +20,7 @@
                 class="card mb-3"
                 v-for="task in taskListStore.data"
                 :key="task.id"
+                v-if="isShowData"
             >
                 <div class="card-body">
                     <!-- Modo edição -->
@@ -75,7 +76,9 @@
                     </div>
                 </div>
             </div>
-
+            <div v-else>
+                <h3>Aguarde...</h3>
+            </div>
         </div>
 
         <!-- Modal de criação -->
@@ -120,6 +123,8 @@ import { onMounted, ref, watch } from "vue";
 import { useUserStore } from "@stores/user";
 import { useTaskListStore } from "@stores/taskList";
 
+const isShowData = ref(false);
+
 const userStore = useUserStore();
 const taskListStore = useTaskListStore();
 
@@ -130,7 +135,6 @@ const editingTitle = ref("");
 async function _loadUser() {
     await userStore.getUser();
     taskListStore.user_id = userStore.id;
-    console.log("User ID:", taskListStore.user_id);
 }
 
 function _closeModal() {
@@ -181,7 +185,11 @@ async function deleteTask(id) {
 }
 
 onMounted(async () => {
-    _loadUser()
+    _loadUser();
+    if (taskListStore.user_id) {
+        await taskListStore.read();
+        isShowData.value = true;
+    }
 });
 
 watch(
@@ -190,6 +198,7 @@ watch(
         if (id) {
             taskListStore.user_id = id;
             await taskListStore.read();
+            isShowData.value = true;
         }
     }
 );

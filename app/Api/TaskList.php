@@ -36,7 +36,6 @@ final class TaskList
 
     public function read(Request $request): ?array
     {
-        ds($request->user(), $request->user_id);
         $taskLists = ModelsTaskList::where('user_id', $request->user_id)->orderBy('id', 'desc')->get();
         return $taskLists ? $taskLists->toArray() : null;
     }

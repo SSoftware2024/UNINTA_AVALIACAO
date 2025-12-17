@@ -70,7 +70,7 @@
 
                     <!-- Modo leitura -->
                     <div v-else>
-                        <h1>{{ item.title }}</h1>
+                        <h3>{{ item.title }}</h3>
                         <div class="options d-flex gap-2">
                             <Button
                                 text="Excluir"
