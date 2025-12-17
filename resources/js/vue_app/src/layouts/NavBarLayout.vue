@@ -16,7 +16,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <router-link class="nav-link" to="dashboard">Lista</router-link>
+                        <router-link class="nav-link" :to="{ name: 'dashboard' }">Lista</router-link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click.prevent="_logout">Sair</a>
