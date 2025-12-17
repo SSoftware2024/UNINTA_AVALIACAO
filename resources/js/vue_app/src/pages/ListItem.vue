@@ -5,20 +5,35 @@
                 <form action="">
                     <div class="row">
                         <div class="col-md-12">
-                            <select class="form-select" @change="listItemStore.read" v-model="listItemStore.status">
+                            <select
+                                class="form-select"
+                                @change="listItemStore.read"
+                                v-model="listItemStore.status"
+                            >
                                 <option value="completed">Concluídas</option>
-                                <option value="pending" selected>Pendentes</option>
+                                <option value="pending" selected>
+                                    Pendentes
+                                </option>
                             </select>
                         </div>
                     </div>
-                    <button
-                        type="button"
-                        class="btn btn-primary mt-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#createItem"
-                    >
-                        Cadastrar Item
-                    </button>
+                    <div class="d-flex gap-1">
+                        <button
+                            type="button"
+                            class="btn btn-primary mt-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#createItem"
+                        >
+                            Cadastrar Item
+                        </button>
+                        <router-link
+                            :to="{ name: 'dashboard' }"
+                            type="button"
+                            class="btn btn-info mt-2"
+                        >
+                            Voltar para listas
+                        </router-link>
+                    </div>
                 </form>
             </div>
         </div>
@@ -32,7 +47,11 @@
                 <div class="card-body">
                     <!-- Modo edição inline -->
                     <div v-if="editingItemId === item.id">
-                        <input type="text" class="form-control mb-2" v-model="editingTitle" />
+                        <input
+                            type="text"
+                            class="form-control mb-2"
+                            v-model="editingTitle"
+                        />
                         <div class="options d-flex gap-2">
                             <Button
                                 text="Salvar"
@@ -40,7 +59,12 @@
                                 :isLoading="listItemStore.isLoading.update"
                                 @click.prevent="saveEdit(item.id)"
                             ></Button>
-                            <button class="btn btn-secondary" @click="cancelEdit()">Cancelar</button>
+                            <button
+                                class="btn btn-secondary"
+                                @click="cancelEdit()"
+                            >
+                                Cancelar
+                            </button>
                         </div>
                     </div>
 
@@ -48,39 +72,47 @@
                     <div v-else>
                         <h1>{{ item.title }}</h1>
                         <div class="options d-flex gap-2">
-                            <button type="button" class="btn btn-warning" @click="editItem(item)">Editar</button>
-                            <Button text="Excluir" type="button" class="btn btn-danger" @click="deleteItem(item.id)" :isLoading="listItemStore.isLoading.delete[item.id]"></Button>
-                            <Button :text="item.status == 'pending' ? 'Concluir':'Desconcluir'" type="button" :class="{
-                                'btn':true,
-                                'btn-success': item.status == 'pending',
-                                'btn-secondary': item.status == 'completed'
-                            }" @click="changeStatus(item.id)" :isLoading="listItemStore.isLoading.changeStatus[item.id]"></Button>
+                            <Button
+                                text="Excluir"
+                                type="button"
+                                class="btn btn-danger"
+                                @click="deleteItem(item.id)"
+                                :isLoading="
+                                    listItemStore.isLoading.delete[item.id]
+                                "
+                            ></Button>
+                            <button
+                                type="button"
+                                class="btn btn-warning"
+                                @click="editItem(item)"
+                            >
+                                Editar
+                            </button>
+
+                            <Button
+                                :text="
+                                    item.status == 'pending'
+                                        ? 'Concluir'
+                                        : 'Desconcluir'
+                                "
+                                type="button"
+                                :class="{
+                                    btn: true,
+                                    'btn-success': item.status == 'pending',
+                                    'btn-secondary': item.status == 'completed',
+                                }"
+                                @click="changeStatus(item.id)"
+                                :isLoading="
+                                    listItemStore.isLoading.changeStatus[
+                                        item.id
+                                    ]
+                                "
+                            ></Button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#">Previous</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
         </div>
 
         <Modal id="createItem" title="Cadastrar item">
@@ -104,7 +136,10 @@
                         v-for="(errorMessages, field) in listItemStore.errors"
                         :key="field"
                     >
-                        <div v-for="(message, index) in errorMessages" :key="index">
+                        <div
+                            v-for="(message, index) in errorMessages"
+                            :key="index"
+                        >
                             {{ message }}
                         </div>
                     </div>
