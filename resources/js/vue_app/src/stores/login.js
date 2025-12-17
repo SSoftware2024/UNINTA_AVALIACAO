@@ -43,6 +43,7 @@ export const useLoginStore = defineStore("login", {
                 await axios.post("/logout");
                 // Limpa dados locais
                 localStorage.removeItem("@token");
+                sessionStorage.clear();
 
                 // Resetar store de usuário
                 this.name = "";

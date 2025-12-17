@@ -17,7 +17,6 @@ final class Auth
 
     public function login(array $data): ?string
     {
-
         $user = User::where('email', $data['email'])->first();
         $token = '';
 

@@ -12,15 +12,13 @@ export const useUserStore = defineStore("user", {
             this.router = router;
         },
         async getUser() {
-            let user = localStorage.getItem("@user_api");
-            // console.log("User loaded:", user);
+            let user = sessionStorage.getItem("user");
+
             if (user) {
-                const userData = JSON.parse(user);
-                this.name = userData.name;
-                this.email = userData.email;
-                this.id = userData.id;
-                // console.log(this.name);
-                return;
+                user = JSON.parse(user);
+                this.name = user.name;
+                this.email = user.email;
+                this.id = user.id;
             } else {
                 const axios = await instanceAxios();
                 try {
@@ -28,11 +26,7 @@ export const useUserStore = defineStore("user", {
                         method: "get",
                         url: "user",
                     }).then((response) => {
-                        console.log(response.data);
-                        localStorage.setItem(
-                            "@user_api",
-                            JSON.stringify(response.data)
-                        );
+                        sessionStorage.setItem("user", JSON.stringify(response.data));
                         this.name = response.data.name;
                         this.email = response.data.email;
                         this.id = response.data.id;
@@ -41,7 +35,6 @@ export const useUserStore = defineStore("user", {
                     console.log(error);
                 }
             }
-
         },
     },
 });

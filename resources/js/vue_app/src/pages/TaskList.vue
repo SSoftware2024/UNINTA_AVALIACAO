@@ -116,7 +116,7 @@
 <script setup>
 import Modal from "@/components/Modal.vue";
 import Button from "@/components/Button.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useUserStore } from "@stores/user";
 import { useTaskListStore } from "@stores/taskList";
 
@@ -130,6 +130,7 @@ const editingTitle = ref("");
 async function _loadUser() {
     await userStore.getUser();
     taskListStore.user_id = userStore.id;
+    console.log("User ID:", taskListStore.user_id);
 }
 
 function _closeModal() {
@@ -180,9 +181,18 @@ async function deleteTask(id) {
 }
 
 onMounted(async () => {
-    await _loadUser();
-    await taskListStore.read();
+    _loadUser()
 });
+
+watch(
+    () => userStore.id,
+    async (id) => {
+        if (id) {
+            taskListStore.user_id = id;
+            await taskListStore.read();
+        }
+    }
+);
 </script>
 
 <style scoped></style>

@@ -26,7 +26,6 @@ export const useRegisterStore = defineStore("register", {
                 });
                 this.isLoading = false;
                 let data = response.data;
-                console.log(data.token);
                 if(data.token){
                     localStorage.setItem('@token', data.token);
                     this.router.push({ name: 'dashboard' });

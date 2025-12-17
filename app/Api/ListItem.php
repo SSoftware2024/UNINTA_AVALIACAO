@@ -12,7 +12,6 @@ final class ListItem
 
     public function create(Request $request)
     {
-        ds('here');
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string', 'max:255'],
             'task_list_id' => ['required', 'integer', 'exists:task_lists,id'],

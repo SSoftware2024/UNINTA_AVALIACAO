@@ -75,7 +75,6 @@ Route::post('/register', function (Request $request) {
 Route::post('/logout', [AuthApi::class, 'logout'])->middleware('auth:sanctum');
 
 Route::get('/user', function (Request $request) {
-    ds('here');
     return $request->user();
 })->middleware('auth:sanctum');
 
