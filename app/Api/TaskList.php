@@ -11,7 +11,6 @@ final class TaskList
 {
     public function create(Request $request)
     {
-        ds('here');
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string', 'max:255'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
@@ -34,15 +33,16 @@ final class TaskList
 
     }
 
-    public function read(int $id): ?array
+    public function read(Request $request): ?array
     {
-        // Implementation for reading a task list
-        return null;
+        $taskLists = ModelsTaskList::where('user_id', $request->user_id)->orderBy('id', 'desc')->get();
+        return $taskLists ? $taskLists->toArray() : null;
     }
 
-    public function update(int $id, array $data): void
+    public function update(Request $request): void
     {
-        // Implementation for updating a task list
+        ds($request->all());
+         ModelsTaskList::where('id', $request->id)->update(['title' => $request->title]);
     }
 
     public function delete(int $id): void

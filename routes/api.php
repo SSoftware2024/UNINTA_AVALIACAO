@@ -49,6 +49,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('task_list')->group(function () {
         Route::post('/create', [TaskList::class, 'create']);
+        Route::get('/read', [TaskList::class, 'read']);
+        Route::patch('/update', [TaskList::class, 'update']);
     });
 
 
