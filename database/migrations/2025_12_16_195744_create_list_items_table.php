@@ -2,6 +2,7 @@
 
 use App\Enum\ListItemStatus;
 use App\Models\ListItem;
+use App\Models\TaskList;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->enum('status', ListItemStatus::cases())->default(ListItemStatus::PENDING->value)->nullable();
-            $table->foreignIdFor(ListItem::class)->nullable()->constrained();
+            $table->foreignIdFor(TaskList::class)->nullable()->constrained();
             $table->timestamps();
         });
     }
